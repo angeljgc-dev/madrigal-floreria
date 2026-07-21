@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MADRIGAL — Florería de autor · Ramos de temporada</title>
+<meta name="description" content="MADRIGAL, florería de autor. Ramos de temporada por encargo, piezas para casas y eventos íntimos. Flores que respiran.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23101511'/%3E%3Ccircle cx='16' cy='13' r='6' fill='%23B4766B'/%3E%3Cpath d='M16 19 L16 28 M16 22 L11 19 M16 24 L21 21' stroke='%238F7B4E' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://images.pexels.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Marcellus&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --noche:#101511;
+    --musgo:#1C241B;
+    --hueso:#EDE6D8;
+    --rosa:#B4766B;
+    --laton:#8F7B4E;
+    --display:"Italiana",serif;
+    --labels:"Marcellus",serif;
+    --body:"EB Garamond",serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{background:var(--noche);overflow-x:clip;scrollbar-width:none}
+  html::-webkit-scrollbar{display:none}
+  body{
+    background:var(--noche);color:var(--hueso);
+    font-family:var(--body);font-size:1.2rem;line-height:1.7;
+    overflow-x:clip;
+  }
+  ::selection{background:var(--rosa);color:var(--noche)}
+  img,video,canvas{max-width:100%;display:block}
+  section{position:relative}
+  .label{
+    font-family:var(--labels);font-size:clamp(.72rem,1vw,.88rem);
+    letter-spacing:.34em;text-transform:uppercase;color:var(--laton);
+  }
+  .latin{font-style:italic;color:var(--rosa)}
+  .regla{width:64px;height:1px;background:var(--laton);margin:2.5vh auto}
+
+  /* marco fake3d: canvas encima, img fallback debajo */
+  .f3d{position:relative;overflow:hidden}
+  .f3d img{width:100%;height:100%;object-fit:cover}
+  .f3d canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .8s ease}
+  .f3d.viva canvas{opacity:1}
+
+  /* ============ HERO ============ */
+  #hero{
+    min-height:100vh;min-height:100svh;overflow:hidden;
+    display:grid;place-items:center;text-align:center;
+  }
+  #hero .f3d{position:absolute;inset:0}
+  #hero .f3d::after{
+    content:"";position:absolute;inset:0;z-index:2;
+    background:radial-gradient(ellipse at 50% 44%,rgba(16,21,17,.08),rgba(16,21,17,.88) 82%);
+  }
+  #petalos-hero{position:absolute;inset:0;z-index:3;pointer-events:none}
+  #hero-inner{position:relative;z-index:5;padding:0 6vw}
+  #hero .label{display:block;margin-bottom:2.5vh}
+  #hero h1{
+    font-family:var(--display);font-weight:400;
+    font-size:clamp(4rem,15vw,12.5rem);line-height:.95;
+    letter-spacing:.06em;color:var(--hueso);
+  }
+  #hero h1 .ch{display:inline-block}
+  #hero .bajo{
+    margin-top:2.5vh;font-size:clamp(1.05rem,1.7vw,1.35rem);
+    color:rgba(237,230,216,.85);font-style:italic;
+  }
+  #hero .cta{margin-top:5vh}
+  .cta{
+    display:inline-block;color:var(--hueso);text-decoration:none;
+    font-family:var(--labels);font-size:clamp(.85rem,1.2vw,1rem);
+    letter-spacing:.3em;text-transform:uppercase;
+    border:1px solid var(--laton);padding:17px 44px;
+    min-height:44px;will-change:transform;
+  }
+  @media (hover:hover) and (pointer:fine){
+    .cta:hover{background:var(--laton);color:var(--noche)}
+  }
+  .cta:focus-visible{outline:1px solid var(--hueso);outline-offset:6px}
+
+  /* ============ MANIFIESTO ============ */
+  #manifiesto{
+    min-height:80vh;min-height:80svh;display:grid;place-items:center;
+    text-align:center;padding:14vh 8vw;
+  }
+  #manifiesto blockquote{
+    font-size:clamp(1.7rem,4.2vw,3.4rem);line-height:1.35;
+    font-style:italic;max-width:24ch;
+  }
+  #manifiesto cite{
+    display:block;margin-top:4vh;font-style:normal;
+    font-family:var(--labels);font-size:.82rem;letter-spacing:.3em;
+    text-transform:uppercase;color:var(--laton);
+  }
+
+  /* ============ EL HERBARIO ============ */
+  #herbario{padding:10vh 6vw 14vh;background:var(--musgo)}
+  #herbario header{text-align:center;margin-bottom:8vh}
+  #herbario h2{
+    font-family:var(--display);font-weight:400;
+    font-size:clamp(2.6rem,7vw,5.4rem);letter-spacing:.05em;margin-top:10px;
+  }
+  #laminas{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:clamp(20px,3.5vw,52px);max-width:1200px;margin:0 auto;
+  }
+  @media (max-width:799px){ #laminas{grid-template-columns:1fr;max-width:440px} }
+  .lamina{text-align:center}
+  .lamina .marco{
+    position:relative;aspect-ratio:3/4;overflow:hidden;
+    border:1px solid rgba(143,123,78,.55);
+    padding:10px;background:rgba(16,21,17,.4);
+  }
+  .lamina .marco > .interior{
+    position:absolute;inset:10px;overflow:hidden;
+    clip-path:ellipse(75% 68% at 50% 50%);
+  }
+  .lamina .interior img{width:100%;height:100%;object-fit:cover}
+  .lamina .num{
+    position:absolute;top:18px;left:18px;z-index:3;
+    font-family:var(--labels);font-size:.72rem;letter-spacing:.24em;
+    color:var(--hueso);text-shadow:0 1px 4px rgba(0,0,0,.8);
+  }
+  .lamina figcaption{margin-top:2.5vh}
+  .lamina .binomio{font-size:1.2rem}
+  .lamina .comun{
+    font-family:var(--labels);font-size:.74rem;letter-spacing:.26em;
+    text-transform:uppercase;color:rgba(237,230,216,.65);margin-top:6px;
+  }
+
+  /* ============ TALLO DIVISOR ============ */
+  #tallo-div{display:grid;place-items:center;padding:9vh 0;background:var(--musgo)}
+  #tallo-div svg{width:min(140px,30vw);height:auto;overflow:visible}
+  #tallo-div path{fill:none;stroke:var(--laton);stroke-width:1.6;stroke-linecap:round}
+
+  /* ============ EL ESTUDIO ============ */
+  #estudio{padding:14vh 6vw;background:var(--musgo)}
+  #estudio-grid{
+    display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(28px,5vw,80px);
+    max-width:1150px;margin:0 auto;align-items:center;
+  }
+  @media (max-width:799px){ #estudio-grid{grid-template-columns:1fr;text-align:center} }
+  #estudio .f3d{aspect-ratio:3/4;border:1px solid rgba(143,123,78,.5)}
+  #estudio h2{
+    font-family:var(--display);font-weight:400;
+    font-size:clamp(2.4rem,5.5vw,4.4rem);letter-spacing:.04em;margin:12px 0 3vh;
+  }
+  #estudio p{color:rgba(237,230,216,.85);max-width:46ch}
+  @media (max-width:799px){ #estudio p{margin-inline:auto} }
+  #estudio .datos{
+    margin-top:4vh;font-family:var(--labels);font-size:.8rem;
+    letter-spacing:.24em;text-transform:uppercase;color:rgba(237,230,216,.6);
+    line-height:2.3;
+  }
+  #estudio .datos b{color:var(--laton);font-weight:400}
+
+  /* ============ LA TEMPORADA ============ */
+  #temporada{
+    min-height:82vh;min-height:82svh;overflow:hidden;
+    display:grid;place-items:center;text-align:center;background:var(--noche);
+  }
+  #temporada video{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:.4;pointer-events:none;
+  }
+  #temporada .velo{
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse at center,rgba(16,21,17,.25),rgba(16,21,17,.9) 85%);
+  }
+  #temporada blockquote{
+    position:relative;z-index:3;padding:0 8vw;
+    font-size:clamp(1.6rem,3.8vw,3rem);font-style:italic;line-height:1.4;
+    max-width:26ch;
+  }
+  #temporada .label{position:relative;z-index:3;display:block;margin-top:3.5vh}
+
+  /* ============ ENCARGO ============ */
+  #encargo{padding:14vh 6vw calc(13vh + env(safe-area-inset-bottom,0px))}
+  #encargo-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);
+    max-width:1100px;margin:0 auto;align-items:center;
+  }
+  @media (max-width:799px){ #encargo-grid{grid-template-columns:1fr;text-align:center} }
+  #encargo .f3d{aspect-ratio:3/4;border:1px solid rgba(143,123,78,.5)}
+  #encargo h2{
+    font-family:var(--display);font-weight:400;
+    font-size:clamp(2.2rem,5vw,4rem);letter-spacing:.04em;line-height:1.1;
+    max-width:16ch;
+  }
+  @media (max-width:799px){ #encargo h2{margin-inline:auto} }
+  #encargo .nota{margin-top:3vh;font-style:italic;color:rgba(237,230,216,.8);max-width:40ch}
+  @media (max-width:799px){ #encargo .nota{margin-inline:auto} }
+  #encargo .cta{margin-top:4.5vh}
+  #encargo .contacto{
+    margin-top:4.5vh;font-family:var(--labels);font-size:.78rem;
+    letter-spacing:.24em;text-transform:uppercase;color:rgba(237,230,216,.55);
+    line-height:2.3;
+  }
+
+  #pie{
+    text-align:center;padding:6vh 6vw calc(5vh + env(safe-area-inset-bottom,0px));
+    border-top:1px solid rgba(143,123,78,.3);
+    font-family:var(--labels);font-size:.66rem;letter-spacing:.2em;
+    text-transform:uppercase;color:rgba(237,230,216,.4);line-height:2.2;
+  }
+
+  @media (max-height:500px){
+    #hero,#manifiesto,#temporada{min-height:auto;padding-top:12vh;padding-bottom:12vh}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .f3d canvas{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section id="hero" aria-label="Madrigal, florería de autor">
+  <div class="f3d" data-img="peonia.jpg" data-depth="peonia-depth.png" data-tx="33" data-ty="18">
+    <img src="peonia.jpg" alt="Peonía rosa pálido sobre fondo negro" fetchpriority="high">
+  </div>
+  <canvas id="petalos-hero" aria-hidden="true"></canvas>
+  <div id="hero-inner">
+    <span class="label">FLORERÍA DE AUTOR · No. 01</span>
+    <h1 id="marca">MADRIGAL</h1>
+    <p class="bajo">Trabajamos con lo que la temporada decide, no con lo que el catálogo promete.</p>
+    <a class="cta magnetico" href="#encargo">ENCARGAR RAMO</a>
+  </div>
+</section>
+
+<!-- ============ MANIFIESTO ============ -->
+<section id="manifiesto" aria-label="Manifiesto">
+  <div>
+    <blockquote id="mani-linea">«No hacemos arreglos. Hacemos silencios que caben en un jarrón.»</blockquote>
+    <div class="regla" aria-hidden="true"></div>
+    <cite>MADRIGAL · CUADERNO DE TALLER</cite>
+  </div>
+</section>
+
+<!-- ============ EL HERBARIO ============ -->
+<section id="herbario" aria-label="El herbario">
+  <header>
+    <span class="label">LÁMINAS DE TEMPORADA</span>
+    <h2>El herbario</h2>
+  </header>
+  <div id="laminas">
+    <figure class="lamina">
+      <div class="marco">
+        <span class="num">LÁMINA I</span>
+        <div class="interior f3d" data-img="rosa.jpg" data-depth="rosa-depth.png" data-tx="28" data-ty="16">
+          <img src="rosa.jpg" alt="Rosa de jardín frambuesa en macro" loading="lazy">
+        </div>
+      </div>
+      <figcaption>
+        <div class="binomio latin">Rosa × centifolia</div>
+        <div class="comun">ROSA DE JARDÍN · ESPÉCIMEN 12</div>
+      </figcaption>
+    </figure>
+    <figure class="lamina">
+      <div class="marco">
+        <span class="num">LÁMINA II</span>
+        <div class="interior">
+          <img src="https://images.pexels.com/photos/2306263/pexels-photo-2306263.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Ramo de rosas crema contra pared oscura" loading="lazy" referrerpolicy="no-referrer">
+        </div>
+      </div>
+      <figcaption>
+        <div class="binomio latin">Rosa 'Vendela'</div>
+        <div class="comun">ROSA CREMA · ESPÉCIMEN 27</div>
+      </figcaption>
+    </figure>
+    <figure class="lamina">
+      <div class="marco">
+        <span class="num">LÁMINA III</span>
+        <div class="interior">
+          <img src="https://images.pexels.com/photos/3066127/pexels-photo-3066127.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Waratah carmesí con follaje profundo" loading="lazy" referrerpolicy="no-referrer">
+        </div>
+      </div>
+      <figcaption>
+        <div class="binomio latin">Telopea speciosissima</div>
+        <div class="comun">WARATAH · ESPÉCIMEN 03</div>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ TALLO DIVISOR ============ -->
+<div id="tallo-div" aria-hidden="true">
+  <svg viewBox="0 0 140 220">
+    <path id="tallo-path" d="M70 8 C 70 52 64 70 70 108 C 76 146 66 170 70 212 M70 60 C 52 52 40 38 36 22 M70 60 C 56 66 46 78 44 92 M70 120 C 88 112 100 98 104 82 M70 120 C 84 126 94 138 96 152"/>
+  </svg>
+</div>
+
+<!-- ============ EL ESTUDIO ============ -->
+<section id="estudio" aria-label="El estudio">
+  <div id="estudio-grid">
+    <div class="f3d" data-img="estudio.jpg" data-depth="estudio-depth.png" data-tx="55" data-ty="32">
+      <img src="estudio.jpg" alt="Interior del estudio floral con botánica colgante" loading="lazy">
+    </div>
+    <div>
+      <span class="label">EL TALLER</span>
+      <h2>El agua se cambia, la luz se busca</h2>
+      <p>Lo demás lo hace la flor. Cada tallo se corta al alba; a mediodía ya tiene dueño. Trabajamos por encargo, en silencio y con la ventana abierta.</p>
+      <p class="datos">
+        ENCARGOS <b>MIÉ – SÁB</b> · ENTREGAS <b>VIE – DOM</b><br>
+        COLONIA AMERICANA · <b>GUADALAJARA</b>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LA TEMPORADA ============ -->
+<section id="temporada" aria-label="La temporada">
+  <video autoplay muted loop playsinline preload="metadata" src="petalos.mp4"></video>
+  <div class="velo" aria-hidden="true"></div>
+  <blockquote>«Un ramo es un paisaje al que se le pidió brevedad.»</blockquote>
+  <span class="label"><span class="latin">Paeonia</span> · <span class="latin">Ranunculus</span> · <span class="latin">Eucalyptus</span> — LO QUE LA SEMANA TRAIGA</span>
+</section>
+
+<!-- ============ ENCARGO ============ -->
+<section id="encargo" aria-label="Encargar ramo">
+  <div id="encargo-grid">
+    <div>
+      <span class="label">POR ENCARGO</span>
+      <h2>Flores de autor para casas que no necesitan explicarse</h2>
+      <p class="nota">Cuéntenos la ocasión, el lugar y la luz. Nosotros decidimos con la temporada.</p>
+      <a class="cta magnetico" href="#pedido">ENCARGAR RAMO</a>
+      <p class="contacto">RAMOS DESDE $650 · PIEZAS DE COMEDOR DESDE $1,200<br>TEL. 33 4141 0101 · HOLA@MADRIGAL.MX</p>
+    </div>
+    <div class="f3d" data-img="manos.jpg" data-depth="manos-depth.png" data-tx="30" data-ty="18">
+      <img src="manos.jpg" alt="Florista sosteniendo un ramo de rosas terracota" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<footer id="pie">
+  MADRIGAL · FLORERÍA DE AUTOR — FOTOGRAFÍA CORTESÍA DE PEXELS ·
+  PROFUNDIDAD DE IMAGEN GENERADA EN CASA
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var FINE = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  /* ==================== FAKE3D — fotos con profundidad real ====================
+     Shader verbatim de akella/fake3d + blur 5-tap del depth (mitiga bordes) +
+     deriva senoidal autónoma cuando no hay puntero. WebGL1 crudo, un quad. */
+  var VERT = "attribute vec2 a_position;void main(){gl_Position=vec4(a_position,0,1);}";
+  var FRAG = [
+    "#ifdef GL_ES", "precision mediump float;", "#endif",
+    "uniform vec4 resolution;",
+    "uniform vec2 mouse;",
+    "uniform vec2 threshold;",
+    "uniform float pixelRatio;",
+    "uniform sampler2D image0;",
+    "uniform sampler2D image1;",
+    "vec2 mirrored(vec2 v){vec2 m=mod(v,2.);return mix(m,2.0-m,step(1.0,m));}",
+    "float depthBlur(vec2 uv){",
+    "  vec2 px = vec2(3.0)/resolution.xy;",
+    "  float d = texture2D(image1, mirrored(uv)).r * 0.4;",
+    "  d += texture2D(image1, mirrored(uv + vec2(px.x, 0.))).r * 0.15;",
+    "  d += texture2D(image1, mirrored(uv - vec2(px.x, 0.))).r * 0.15;",
+    "  d += texture2D(image1, mirrored(uv + vec2(0., px.y))).r * 0.15;",
+    "  d += texture2D(image1, mirrored(uv - vec2(0., px.y))).r * 0.15;",
+    "  return d;",
+    "}",
+    "void main(){",
+    "  vec2 uv = pixelRatio * gl_FragCoord.xy / resolution.xy;",
+    "  vec2 vUv = (uv - vec2(0.5)) * resolution.zw + vec2(0.5);",
+    "  vUv.y = 1. - vUv.y;",
+    "  float depth = depthBlur(vUv);",
+    "  vec2 fake3d = vec2(vUv.x + (depth - 0.5) * mouse.x / threshold.x,",
+    "                     vUv.y + (depth - 0.5) * mouse.y / threshold.y);",
+    "  gl_FragColor = texture2D(image0, mirrored(fake3d));",
+    "}"
+  ].join("\n");
+
+  var instancias = [];
+  var mouseTarget = { x: 0, y: 0 };
+  var ultimoPuntero = 0;
+
+  function Fake3D(wrap){
+    var self = this;
+    this.wrap = wrap;
+    this.tx = +wrap.dataset.tx || 33;
+    this.ty = +wrap.dataset.ty || 18;
+    this.mx = 0; this.my = 0;
+    this.visible = true;
+
+    var canvas = document.createElement("canvas");
+    wrap.appendChild(canvas);
+    var gl = canvas.getContext("webgl", { antialias: false });
+    if (!gl) return;
+    this.gl = gl; this.canvas = canvas;
+
+    function shader(type, src){
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      return s;
+    }
+    var prog = gl.createProgram();
+    gl.attachShader(prog, shader(gl.VERTEX_SHADER, VERT));
+    gl.attachShader(prog, shader(gl.FRAGMENT_SHADER, FRAG));
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
+    gl.useProgram(prog);
+    this.prog = prog;
+
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(prog, "a_position");
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    this.u = {
+      resolution: gl.getUniformLocation(prog, "resolution"),
+      mouse: gl.getUniformLocation(prog, "mouse"),
+      threshold: gl.getUniformLocation(prog, "threshold"),
+      pixelRatio: gl.getUniformLocation(prog, "pixelRatio"),
+      image0: gl.getUniformLocation(prog, "image0"),
+      image1: gl.getUniformLocation(prog, "image1")
+    };
+    gl.uniform2f(this.u.threshold, this.tx, this.ty);
+
+    function textura(unidad, img){
+      var t = gl.createTexture();
+      gl.activeTexture(gl.TEXTURE0 + unidad);
+      gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
+    }
+
+    var img0 = new Image(), img1 = new Image(), cargadas = 0;
+    function lista(){
+      if (++cargadas < 2) return;
+      self.aspect = img0.naturalHeight / img0.naturalWidth;
+      textura(0, img0); gl.uniform1i(self.u.image0, 0);
+      textura(1, img1); gl.uniform1i(self.u.image1, 1);
+      self.resize();
+      /* el layout puede no estar listo si los assets locales cargan muy rápido:
+         re-medir en el siguiente frame y un poco después */
+      requestAnimationFrame(function(){ self.resize(); });
+      setTimeout(function(){ self.resize(); }, 350);
+      wrap.classList.add("viva");
+      instancias.push(self);
+    }
+    img0.onload = lista; img1.onload = lista;
+    img0.src = wrap.dataset.img;
+    img1.src = wrap.dataset.depth;
+    window.addEventListener("load", function(){ if (self.aspect) self.resize(); });
+
+    new IntersectionObserver(function(entradas){
+      self.visible = entradas[0].isIntersecting;
+    }, { rootMargin: "60px" }).observe(wrap);
+
+    window.addEventListener("resize", function(){ if (self.aspect) self.resize(); });
+  }
+  Fake3D.prototype.resize = function(){
+    var r = this.wrap.getBoundingClientRect();
+    var dpr = Math.min(devicePixelRatio, 2);
+    this.canvas.width = r.width * dpr;
+    this.canvas.height = r.height * dpr;
+    var a1, a2;
+    if (r.height / r.width < this.aspect){ a1 = 1; a2 = (r.height / r.width) / this.aspect; }
+    else { a1 = (r.width / r.height) * this.aspect; a2 = 1; }
+    var gl = this.gl;
+    gl.useProgram(this.prog);
+    gl.uniform4f(this.u.resolution, r.width, r.height, a1, a2);
+    gl.uniform1f(this.u.pixelRatio, 1 / dpr);
+    gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+  };
+  Fake3D.prototype.render = function(){
+    if (!this.visible) return;
+    this.mx += (mouseTarget.x - this.mx) * .05;
+    this.my += (mouseTarget.y - this.my) * .05;
+    var gl = this.gl;
+    gl.useProgram(this.prog);
+    gl.uniform2f(this.u.mouse, this.mx, this.my);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  };
+
+  if (!REDUCED){
+    document.querySelectorAll(".f3d").forEach(function(w){ new Fake3D(w); });
+
+    if (FINE){
+      window.addEventListener("mousemove", function(e){
+        ultimoPuntero = performance.now();
+        mouseTarget.x = (window.innerWidth / 2 - e.clientX) / (window.innerWidth / 2);
+        mouseTarget.y = (window.innerHeight / 2 - e.clientY) / (window.innerHeight / 2);
+      });
+    }
+    /* deriva senoidal cuando no hay puntero reciente (táctil o reposo) */
+    var t0 = performance.now();
+    (function bucle(t){
+      if (!FINE || t - ultimoPuntero > 3000){
+        var s = (t - t0) / 1000;
+        mouseTarget.x = Math.sin(s * .55) * .3;
+        mouseTarget.y = Math.cos(s * .4) * .18;
+      }
+      for (var i = 0; i < instancias.length; i++) instancias[i].render();
+      requestAnimationFrame(bucle);
+    })(t0);
+  }
+
+  /* ==================== PÉTALOS A LA DERIVA (canvas 2D, escasos) ==================== */
+  if (!REDUCED){
+    var pc = document.getElementById("petalos-hero");
+    var ctx = pc.getContext("2d");
+    var petalos = [];
+    function pcResize(){ pc.width = pc.clientWidth; pc.height = pc.clientHeight; }
+    pcResize(); window.addEventListener("resize", pcResize);
+    for (var i = 0; i < 12; i++){
+      petalos.push({
+        x: Math.random(), y: Math.random(), s: 5 + Math.random() * 8,
+        vy: .12 + Math.random() * .3, ph: Math.random() * 6.28,
+        sw: .4 + Math.random() * 1.1, rot: Math.random() * 6.28, vr: (Math.random() - .5) * .015
+      });
+    }
+    var heroVisible = true;
+    new IntersectionObserver(function(e){ heroVisible = e[0].isIntersecting; }, {})
+      .observe(document.getElementById("hero"));
+    var pt = 0;
+    (function petaloLoop(){
+      requestAnimationFrame(petaloLoop);
+      if (!heroVisible) return;
+      pt += .016;
+      ctx.clearRect(0, 0, pc.width, pc.height);
+      for (var i = 0; i < petalos.length; i++){
+        var p = petalos[i];
+        p.y += p.vy / 100; p.rot += p.vr;
+        if (p.y > 1.06){ p.y = -.06; p.x = Math.random(); }
+        var x = p.x * pc.width + Math.sin(pt * p.sw + p.ph) * 26;
+        var y = p.y * pc.height;
+        ctx.save();
+        ctx.translate(x, y); ctx.rotate(p.rot);
+        ctx.fillStyle = "rgba(180,118,107," + (.35 + .2 * Math.sin(p.ph + pt)) + ")";
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.s, p.s * .55, 0, 0, 6.2832);
+        ctx.fill();
+        ctx.restore();
+      }
+    })();
+  }
+
+  if (REDUCED) return; /* estático: fotos normales, todo legible */
+
+  /* ==================== LENIS + GSAP ==================== */
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+  var lenis = new Lenis({ autoRaf: false, lerp: .1, syncTouch: false });
+  lenis.on("scroll", ScrollTrigger.update);
+  gsap.ticker.add(function(t){ lenis.raf(t * 1000); });
+  gsap.ticker.lagSmoothing(0);
+
+  /* HERO: florecer del título al cargar */
+  document.fonts.ready.then(function(){
+    var split = new SplitText("#marca", { type: "chars" });
+    gsap.timeline()
+      .from(split.chars, {
+        opacity: 0, y: 34, rotationX: -50, transformOrigin: "50% 100%",
+        duration: 1.1, stagger: .06, ease: "power3.out"
+      }, .3)
+      .from("#hero .label", { opacity: 0, y: -14, duration: .8, ease: "power2.out" }, .5)
+      .from("#hero .bajo, #hero .cta", { opacity: 0, y: 20, duration: .9, stagger: .16, ease: "power2.out" }, 1.1);
+
+    /* MANIFIESTO: líneas enmascaradas scrubbed */
+    SplitText.create("#mani-linea", {
+      type: "lines", mask: "lines", autoSplit: true,
+      onSplit: function(self){
+        return gsap.from(self.lines, {
+          yPercent: 115, duration: 1, stagger: .12, ease: "power3.out",
+          scrollTrigger: { trigger: "#manifiesto", start: "top 70%", once: true }
+        });
+      }
+    });
+  });
+
+  /* HERBARIO: keyhole orgánico por lámina (clip-path ellipse scrubbed) */
+  gsap.utils.toArray(".lamina").forEach(function(lam, i){
+    var interior = lam.querySelector(".interior");
+    gsap.fromTo(interior,
+      { clipPath: "ellipse(12% 9% at 50% 50%)" },
+      { clipPath: "ellipse(75% 68% at 50% 50%)", ease: "none",
+        scrollTrigger: { trigger: lam, start: "top 88%", end: "top 38%", scrub: 1 } });
+    gsap.from(lam.querySelector("figcaption"), {
+      opacity: 0, y: 22, duration: .9, ease: "power2.out",
+      scrollTrigger: { trigger: lam, start: "top 55%", once: true }
+    });
+  });
+  gsap.from("#herbario header", {
+    opacity: 0, y: 30, duration: 1, ease: "power2.out",
+    scrollTrigger: { trigger: "#herbario", start: "top 75%", once: true }
+  });
+
+  /* TALLO: se dibuja con el scroll */
+  var tallo = document.getElementById("tallo-path");
+  var L = tallo.getTotalLength();
+  tallo.style.strokeDasharray = L;
+  tallo.style.strokeDashoffset = L;
+  gsap.to(tallo, { strokeDashoffset: 0, ease: "none",
+    scrollTrigger: { trigger: "#tallo-div", start: "top 90%", end: "bottom 45%", scrub: 1 } });
+
+  /* ESTUDIO / TEMPORADA / ENCARGO: reveals suaves */
+  gsap.utils.toArray("#estudio-grid > div, #temporada blockquote, #temporada .label, #encargo-grid > div").forEach(function(el){
+    gsap.from(el, {
+      opacity: 0, y: 40, duration: 1.1, ease: "power2.out",
+      scrollTrigger: { trigger: el, start: "top 80%", once: true }
+    });
+  });
+
+  /* CTA magnético (solo puntero fino) */
+  if (FINE){
+    document.querySelectorAll(".magnetico").forEach(function(btn){
+      var xTo = gsap.quickTo(btn, "x", { duration: .8, ease: "elastic.out(1,.45)" });
+      var yTo = gsap.quickTo(btn, "y", { duration: .8, ease: "elastic.out(1,.45)" });
+      btn.addEventListener("mousemove", function(e){
+        var r = btn.getBoundingClientRect();
+        xTo((e.clientX - r.left - r.width / 2) * .3);
+        yTo((e.clientY - r.top - r.height / 2) * .3);
+      });
+      btn.addEventListener("mouseleave", function(){ xTo(0); yTo(0); });
+    });
+  }
+
+  /* srcset para las fotos hotlink del herbario */
+  document.querySelectorAll('img[src*="images.pexels.com"]').forEach(function(img){
+    if (img.srcset) return;
+    img.srcset = [500, 1000].map(function(w){
+      return img.src.replace(/([?&])w=\d+/, "$1w=" + w) + " " + w + "w";
+    }).join(", ");
+    img.sizes = "(max-width: 799px) 88vw, 30vw";
+  });
+
+  window.addEventListener("load", function(){ ScrollTrigger.refresh(); });
+})();
+</script>
+</body>
+</html>
